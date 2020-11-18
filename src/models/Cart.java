@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Cart {
-    private int subTotal, noOfItems;
+    private int subTotal = 0, noOfItems;
     Map<String, CartItem> cartItemMap = new HashMap<>();
     Map<String, Integer> totalCartItems = new HashMap<>();
 
@@ -17,6 +17,7 @@ public class Cart {
         }
         noOfItems++;
         subTotal += variant.price;
+        System.out.println(subTotal);
         if (totalCartItems.containsKey(product.name)) {
             int qty = totalCartItems.get(product.name) + 1;
             totalCartItems.put(product.name, qty);
@@ -50,22 +51,36 @@ public class Cart {
             subTotal -= cartItemMap.get(product.name).price;
             cartItemMap.put(product.name, new CartItem(product.name, newPrice, quantity));
             subTotal += newPrice;
-        }
-        else{
+        } else {
             noOfItems++;
-            cartItemMap.put(product.name,new CartItem(product.name, newPrice, quantity));
-            subTotal+=newPrice;
+            cartItemMap.put(product.name, new CartItem(product.name, newPrice, quantity));
+            subTotal += newPrice;
         }
 
     }
-    public void removeWBProductInCart(Product product){
-        if (cartItemMap.containsKey(product.name)){
+
+    public void removeWBProductInCart(Product product) {
+        if (cartItemMap.containsKey(product.name)) {
             noOfItems--;
-            subTotal-=cartItemMap.get(product.name).price;
+            subTotal -= cartItemMap.get(product.name).price;
             cartItemMap.remove(product.name);
         }
     }
 
+    public void removeAllVariants(Product product) {
+        for (Variant variant : product.variants) {
+            String key = product.name + " " + variant.name;
+            if (cartItemMap.containsKey(key)) {
+                subTotal -= cartItemMap.get(key).price;
+                System.out.println(subTotal);
+                noOfItems -= cartItemMap.get(key).qty;
+                cartItemMap.remove(key);
+            }
+        }
+        totalCartItems.remove(product.name);
+
+
+    }
 
 
     @Override

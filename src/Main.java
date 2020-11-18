@@ -2,6 +2,8 @@ import models.Cart;
 import models.Product;
 import models.Variant;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
         //VariantBased in cart
@@ -15,9 +17,15 @@ public class Main {
         cart.addVariantBasedProductToCart(product, variant1);
         cart.addVariantBasedProductToCart(product, variant1);
         cart.addVariantBasedProductToCart(product, variant2);
-        cart.removeVariantBasedProductFromCart(product, variant);
-        cart.removeVariantBasedProductFromCart(product, variant1);
+/*        cart.removeVariantBasedProductFromCart(product, variant);
+        cart.removeVariantBasedProductFromCart(product, variant1);*/
         System.out.println("Cart items only variants based\n");
+        System.out.println(cart);
+
+        product.variants.add(variant);
+        product.variants.add(variant1);
+        product.variants.add(variant2);
+        cart.removeAllVariants(product);
         System.out.println(cart);
 
         //WeightBasedProduct in cart
